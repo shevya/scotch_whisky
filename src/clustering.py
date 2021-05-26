@@ -130,3 +130,9 @@ for i in df_transposed_result.columns:
 
 top_dist_per_group = df_full.groupby(['kmeans_cluster'],as_index=False).apply(lambda x: x.nlargest(5, 'DIST'))
 print(top_dist_per_group)
+
+'''
+I choose Dallas Dhu because i like  sweet, fruity whisky with smooth finish and pleasant sweet 
+smell. It was assigned to cluster number 2. Model as recommendation provided other whisky 
+from that cluster with the highest score e.g. Aberlour.
+'''
