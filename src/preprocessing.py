@@ -2,7 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-from sklearn.cluster import KMeans
 
 # read csv
 df_src = pd.read_csv('../data/scotch_csv.csv', sep=";")
@@ -42,5 +41,15 @@ plt.show()
 sns.scatterplot('latitude', 'longitude', data=df, hue='REGION')
 plt.show()
 
+pd.set_option('display.max_rows', None)
 
+# correlation matrix
+# the correlation coefficient is the highest between pairs: DIST - SCORE and latitude - spey which is obvious
+# the correlation coefficient is the worst between pairs: BODY_light - PAL_sweet and color_o.gold - BODY_light
+corr= df.corr()
+c1 = corr.abs().unstack()
+print(c1.sort_values(ascending = False))
 
+#matrix = np.triu(df.corr())
+#sns.heatmap(df.corr(), annot=True, mask=matrix)
+#plt.show()
