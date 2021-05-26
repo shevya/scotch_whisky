@@ -11,8 +11,7 @@ df_name = df['NAME']
 df_region = df['REGION']
 df.drop(['NAME', 'name1', 'REGION', 'DISTRICT', 'AGE', 'SCORE', '%'], axis=1, inplace=True)
 
-pd.set_option('display.max_columns', None)
-print(df)
+#pd.set_option('display.max_columns', None)
 
 '''
 # elbow method to choose number of clusters 
@@ -61,7 +60,7 @@ kmeans.fit(df)
 prediction = kmeans.labels_
 prediction_df = pd.DataFrame(data=prediction, columns=['kmeans_cluster'])
 df_full = pd.concat([df_name, df, df_region, prediction_df], axis=1)
-print(df_full)
+
 
 print(df_full['kmeans_cluster'].value_counts())
 print(df_full['DIST'].value_counts())
@@ -95,4 +94,39 @@ for c in range(5):
 
 
 
+df_sum = []
+df_result = []
+for cluster in range(5):
+    for col in df_full.columns:
+        res = (df_full.loc[(df_full['kmeans_cluster'] == cluster)][col].values == 1).sum()
+        result = res / (df_full['kmeans_cluster'] == cluster).sum()
 
+        df_sum.append(result)
+
+    df_result.append(df_sum)
+    df_sum=[]
+
+df_result = pd.DataFrame(df_result)
+
+df_transposed_result = df_result.T
+df_transposed_result.index = df_full.columns
+df_transposed_result.columns = ['cluster_0', 'cluster_1','cluster_2','cluster_3','cluster_4']
+
+df_result = []
+
+df_transposed_result = df_transposed_result.drop('NAME')
+df_transposed_result = df_transposed_result.drop('kmeans_cluster')
+df_transposed_result = df_transposed_result.drop('REGION')
+
+
+
+
+# characteristic of each cluster
+for i in df_transposed_result.columns:
+    print('cluster:' + str(i))
+    print(df_transposed_result.nlargest(10, i)[i])
+
+
+
+top_dist_per_group = df_full.groupby(['kmeans_cluster'],as_index=False).apply(lambda x: x.nlargest(5, 'DIST'))
+print(top_dist_per_group)
