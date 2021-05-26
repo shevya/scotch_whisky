@@ -9,4 +9,4 @@ Original data set contains 68 columns of characters or flavors, including body, 
 Additionally to the original data set, I added two more columns: longitude and latitude.
 
 ## Goal
-The goal of this project is to build a content-based recommendation system for choosing whiskies. Recommendation based on the similarity between two whiskies.
+The goal of this project is to build a content-based recommendation system for choosing whiskies. Recommendation based on the similarity between whiskies.
