@@ -16,4 +16,4 @@ Next steps:
 1. create a model to predict cluster, it will allow the user to make recommendations. 
 2. create a model to predict dist value, it will allow the user to add new examples of whiskies. 
 Use of selected algorithms for testing: knn, decision trees, gradient boosting
-Then create an application (e.g. form) to allow users easier addition of new records.
+3. Then create an application (e.g. form) to allow users easier addition of new records.
