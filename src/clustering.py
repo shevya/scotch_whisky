@@ -8,6 +8,7 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 
 df = pd.read_csv('../data/scotch_csv.csv', sep=";")
 df_name = df['NAME']
+df_region = df['REGION']
 df.drop(['NAME', 'name1', 'REGION', 'DISTRICT', 'AGE', 'SCORE', '%'], axis=1, inplace=True)
 
 pd.set_option('display.max_columns', None)
@@ -59,9 +60,39 @@ kmeans.fit(df)
 
 prediction = kmeans.labels_
 prediction_df = pd.DataFrame(data=prediction, columns=['kmeans_cluster'])
-df_full = pd.concat([df_name, df, prediction_df], axis=1)
+df_full = pd.concat([df_name, df, df_region, prediction_df], axis=1)
 print(df_full)
 
 print(df_full['kmeans_cluster'].value_counts())
 print(df_full['DIST'].value_counts())
+
+# clusters are almost equal
+df_full.kmeans_cluster.value_counts().plot(kind='barh')
+plt.show()
+
+#save predictions
+#df_full.to_csv('predictions.csv')
+
+print(df_full.loc[(df_full['kmeans_cluster'] ==0)]['DIST'].value_counts())
+#print(df_full.loc[(df_full['kmeans_cluster'] ==1)]['DIST'].value_counts())
+
+print(df_full.loc[(df_full['kmeans_cluster'] ==0)]['REGION'].value_counts())
+#print(df_full.loc[(df_full['kmeans_cluster'] ==1)]['REGION'].value_counts())
+
+
+# plot pie chart to visualize frequency
+for c in range(5):
+    df_full.loc[(df_full['kmeans_cluster'] ==c)]['DIST'].value_counts().plot.pie(autopct='%.0f%%')
+    plt.legend()
+    plt.title('cluster: ' + str(c))
+    plt.show()
+
+for c in range(5):
+    df_full.loc[(df_full['kmeans_cluster'] ==c)]['REGION'].value_counts().plot.pie(autopct='%.0f%%')
+    plt.legend()
+    plt.title('cluster: ' + str(c))
+    plt.show()
+
+
+
 
